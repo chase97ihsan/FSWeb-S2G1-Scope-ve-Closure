@@ -16,6 +16,7 @@
 */
 
 function ilkiniDon(stringArray, callback) {
+
   return callback(stringArray[0])
 }
 console.log('örnek görev:', ilkiniDon(['as','sa'],function(metin){return metin+metin}));
@@ -30,11 +31,11 @@ console.log('örnek görev:', ilkiniDon(['as','sa'],function(metin){return metin
   Aşağıdaki skor1 ve skor2 kodlarını inceleyiniz ve aşağıdaki soruları altına not alarak cevaplayın
   
   1. skor1 ve skor2 arasındaki fark nedir?
-  
+  NOT: Skor 1 closure yapısına iyi bir örnektir.Skor 2 skoru global variable de tutar.
   2. Hangisi bir closure kullanmaktadır? Nasıl tarif edebilirsin? (yarınki derste öğreneceksin :) )
-  
+  Genel anlamda ikisi de closure yapısını kullanmaktadır.
   3. Hangi durumda skor1 tercih edilebilir? Hangi durumda skor2 daha mantıklıdır?
-*/
+Birbirinden bağımsız 2 ya da daha fazla skor yazdıracaksak skor1,tüm skoru ortak bir variable da toplamak istiyorsak skor 2 kullanırız.*/
 
 // skor1 kodları
 function skorArtirici() {
@@ -44,8 +45,9 @@ function skorArtirici() {
   }
 }
 
-const skor1 = skorArtirici();
-
+const skor1= skorArtirici();
+skor1();
+console.log(skor1())
 // skor2 kodları
 let skor = 0;
 
@@ -53,6 +55,9 @@ function skor2() {
   return skor++;
 }
 
+
+
+console.log(skor2())
 
 /* Görev 2: takimSkoru() 
 Aşağıdaki takimSkoru() fonksiyonununda aşağıdakileri yapınız:
@@ -64,19 +69,22 @@ Aşağıdaki takimSkoru() fonksiyonununda aşağıdakileri yapınız:
 Not: Bu fonskiyon, aşağıdaki diğer görevler için de bir callback fonksiyonu olarak da kullanılacak
 */
 
-function takimSkoru(/*Kodunuzu buraya yazınız*/){
-    /*Kodunuzu buraya yazınız*/
-}
+function takimSkoru(maxx=25,minn=10){
+  
+  return Math.ceil(Math.random()*(maxx-minn+1)+minn)
 
+
+}
+console.log(takimSkoru(25,10))
 
 
 
 /* Görev 3: macSonucu() 
 Aşağıdaki macSonucu() fonksiyonununda aşağıdakileri yapınız:
   1. Görev 2'de oluşturduğunuz 'takimSkoru'nu callback fonskiyonunu olarak ilk parametrede alın
-  2. Bir basketbol maçında oynanan çeyrek sayısını ikinci parametre olarak alın
+  2.
   3. Her çeyrekte EvSahibi ve KonukTakim için bir skor oluşturun
-  4. Her oynanan çeyrekten sonra EvSahibi ve KonukTakim için skoru güncelleyin
+  4. Her oynanan çeyrekten sonra EvSahibi ve KonukTaki Bir basketbol maçında oynanan çeyrek sayısını ikinci parametre olarak alınm için skoru güncelleyin
   5. Son çeyrekten sonra, maçın bitiş skorunu bir object olarak dönün(return)
 
   Örneğin: macSonucu(takimSkoru, 4) çalıştırınca aşağıdaki object'i dönmeli
@@ -86,10 +94,21 @@ Aşağıdaki macSonucu() fonksiyonununda aşağıdakileri yapınız:
 }
 */ 
 
-function macSonucu(/*Kodunuzu buraya yazınız*/){
-  /*Kodunuzu buraya yazınız*/
-}
+function macSonucu(callback,periyot){
+var evSahibi=0;
+var konukTakim=0;
 
+for(let i=1; i<=periyot; i++){
+  evSahibi= evSahibi+ callback();
+  konukTakim=konukTakim+callback();  
+}
+const result={
+  "EvSahibi": evSahibi,
+  "KonukTakim": konukTakim
+}
+  return result
+} 
+console.log(macSonucu(takimSkoru,4))
 
 
 
@@ -109,10 +128,16 @@ Aşağıdaki periyotSkoru() fonksiyonununda aşağıdakileri yapınız:
   */
 
 
-function periyotSkoru(/*Kodunuzu buraya yazınız*/) {
-  /*Kodunuzu buraya yazınız*/
-
-}
+function periyotSkoru(kopyaa) {
+  var e=kopyaa();
+  var k=kopyaa();
+  const resultt= {
+    
+  "EvSahibi": e,
+  "KonukTakim": k
+  }
+return resultt
+}console.log(periyotSkoru(takimSkoru))
 
 
 /* Zorlayıcı Görev 5: skorTabelasi() 
